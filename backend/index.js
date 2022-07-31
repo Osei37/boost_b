@@ -1,15 +1,15 @@
 const express = require('express')
 const mysql = require('mysql2')
 const app = express()
-const port = process.env.PORT || 3004
+const port = process.env.PORT || 3001
 
 app.use(express.urlencoded({ extended: true }));
 
 const connection = mysql.createConnection({
     host: 'localhost',
-    user: 'testuser001',
+    user: 'root',
     password: 'ALV4+king37',
-    database: 'comic'
+    database: 'test'
 });
 
 app.get('/', (req, res) => {
@@ -18,16 +18,16 @@ app.get('/', (req, res) => {
 
 
 app.post("/api", (req, res) => {
-  const sql = "SELECT * FROM list where title = ?";
+  const sql = "SELECT * FROM info where season = ? and category = ?";
   connection.query(
     sql,
-    req.body.title,
+    [req.body.season, req.body.category],
     function(err, results, fields) {
       if(err) {
         console.log("接続終了(異常)");
         throw err;
       }
-      res.json({message: results[0]});
+      res.json({message: results});
     }
   );
 });
