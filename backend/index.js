@@ -1,7 +1,7 @@
 const express = require('express')
 const mysql = require('mysql2')
 const app = express()
-const port = process.env.PORT || 3002
+const port = process.env.PORT || 3004
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -13,7 +13,8 @@ const connection = mysql.createConnection({
 app.get('/', (req, res) => {
     res.send('Hello World!')
 })
-  
+
+
 app.get("/api", (req, res) => {
     connection.query(
         'SELECT * FROM `list`',
