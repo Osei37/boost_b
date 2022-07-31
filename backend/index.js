@@ -3,6 +3,8 @@ const mysql = require('mysql2')
 const app = express()
 const port = process.env.PORT || 3004
 
+app.use(express.urlencoded({ extended: true }));
+
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'testuser001',
@@ -15,18 +17,19 @@ app.get('/', (req, res) => {
 })
 
 
-app.get("/api", (req, res) => {
-    connection.query(
-        'SELECT * FROM `list`',
-        function(err, results, fields) {
-          if(err) {
-            console.log("接続終了(異常)");
-            throw err;
-          }
-          res.json({message: results[0].title});
-        }
-      );
-    console.log("接続終了(正常)");
+app.post("/api", (req, res) => {
+  const sql = "SELECT * FROM list where title = ?";
+  connection.query(
+    sql,
+    req.body.title,
+    function(err, results, fields) {
+      if(err) {
+        console.log("接続終了(異常)");
+        throw err;
+      }
+      res.json({message: results[0]});
+    }
+  );
 });
 
 app.listen(port, () => {
