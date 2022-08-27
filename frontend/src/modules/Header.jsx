@@ -1,21 +1,50 @@
-import React from 'react'
-import AppBar from '@material-ui/core/AppBar';
-import Box from '@material-ui/core/Box';
+import * as React from 'react';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import AppBar from '@material-ui/core/AppBar';
 
-export default function Header() {
-    return (
-      <>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Info
-            </Typography>
-          </Toolbar>
-        </AppBar>
-      </Box>
-      </>
-    );
-  }
+function Header() {
+
+  const links = [
+    { title: "About", url: "/about" },
+    { title: "Info", url: "/info" },
+    { title: "Provide", url: "/provide" },
+    { title: "Transfer", url: "/transfer" },
+  ]
+  const buttonWidth = `${80/links.length}vw`
+
+  return (
+    <>
+      <AppBar position="static">
+        <Toolbar>
+          <a href="/">
+            <img
+              src={`${process.env.PUBLIC_URL}/boostb.png`}
+              alt="Logo"
+              width="80px"
+            />
+          </a>
+        </Toolbar>
+        <Toolbar
+          component="nav"
+          variant="dense"
+          style={{ justifyContent: 'space-evenly', overflowX: 'auto' }}
+        >
+          {links.map((link_) => (
+            <Button
+              href={link_.url}
+              color="inherit"
+              noWrap
+              variant="a"
+              style={{ p: 1, flexShrink: 0, width: buttonWidth }}
+            >
+              {link_.title}
+            </Button>
+          ))}
+        </Toolbar>
+      </AppBar>      
+    </>
+  );
+}
+
+export default Header;
