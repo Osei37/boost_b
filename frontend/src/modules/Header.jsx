@@ -10,18 +10,16 @@ import AppBar from '@material-ui/core/AppBar';
 import Typography from '@material-ui/core/Typography';
 
 function Header(props) {
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: grey[900]
-    },
-    secondary: {
-      main: "#00bcd4"
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: grey[900]
+      },
+      secondary: {
+        main: "#00bcd4"
+      }
     }
-  }
-});
-
-function Header() {
+  });
 
   const links = [
     { title: "Home", url: "/" },
