@@ -7,7 +7,9 @@ import grey from "@material-ui/core/colors/grey";
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import AppBar from '@material-ui/core/AppBar';
+import Typography from '@material-ui/core/Typography';
 
+function Header(props) {
 const theme = createTheme({
   palette: {
     primary: {
@@ -42,6 +44,16 @@ function Header() {
               width="80px"
             />
           </a>
+          <Typography
+          variant="h5"
+          color="inherit"
+          align="center"
+          noWrap
+          style={{ flex: 1 }}
+          >
+            {props.page}
+          </Typography>
+
         </Toolbar>
         <Toolbar
           component="nav"
