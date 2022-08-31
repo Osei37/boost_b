@@ -17,7 +17,7 @@ app.get('/', (req, res) => {
 })
 
 
-app.post("/api", (req, res) => {
+app.post("/apibscore", (req, res) => {
   const sql = "SELECT * FROM info where season = ? and category = ?";
   connection.query(
     sql,
