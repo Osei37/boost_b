@@ -1,4 +1,6 @@
-import {React, useState} from 'react'
+import { React, useState } from 'react'
+import { makeStyles } from '@material-ui/core/styles';
+
 import TextField from "@material-ui/core/TextField";
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
@@ -17,29 +19,32 @@ import dayjs from 'dayjs';
 import axios from 'axios'
 
 function Form(props) {
+
   const [season, setSeason] = useState("All");
   const [category, setCategory] = useState("All");
-  const [home, setHome] = useState(0);
-  const [away, setAway] = useState(0);
+  const [home, setHome] = useState("All");
+  const [away, setAway] = useState("All");
   const [day, setDay] = useState(dayjs("2016-09-22"));
   // const [week, setWeek] = useState("");
-  const [setsu, setSetsu] = useState(0);
+  const [setsu, setSetsu] = useState(1);
   const [daySwitch, setDaySwitch] = useState(false);
   const [setsuSwitch, setSetsuSwitch] = useState(false);
 
   const seasonValues = ["All", "2019-20", "2020-21", "2021-22"];
   const categoryValues = ["All", "B1", "B2", "B3"];
-  const homeValues = [...Array(10)].map( (x, i) => i + 1 );
-  const awayValues = [...Array(10)].map( (x, i) => i + 1 );
-  const weekValues = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+  const teamValues = ["All"]
+  const homeValues = teamValues.concat([ ...Array(10)].map((x, i) => String(i + 1)));
+  const awayValues = teamValues.concat([ ...Array(10)].map((x, i) => String(i + 1)));
+  // const weekValues = ["All", "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
   const gameDataList = {
     season: { column: "Season", values: seasonValues },
     category: { column: "Category", values: categoryValues },
     home: { column: "Home", values: homeValues },
     away: { column: "Away", values: awayValues },
-    day: { column: "Day", values: weekValues },
-    week: { column: "Week", values: weekValues }
+    day: { column: "Day", values: day },
+    // week: { column: "Week", values: weekValues }
+    setsu: { column: "Setsu", values: setsu }
   }
   const numOfColumns = Object.keys(gameDataList).length + 2;
 
@@ -55,15 +60,16 @@ function Form(props) {
   const funSetAway = (e) => {
     setAway(() => e.target.value);
   }
-  const funSetDay = (e) => {
-    setDay(() => e.target.value);
-  }
+  // const funSetDay = (e) => {
+  //   setDay(() => e.target.value);
+  // }
   const funSetSetsu = (e) => {
     setSetsu(() => e.target.value);
   }
-  const funSetDaySwitch = (e) => {
-    setDaySwitch(() => e.target.value);
-  }
+  // const funSetDay = (e) => {
+  //   setDay(() => e.target.value);
+  // }
+
   const funSwitchDay = (e) => {
     setDaySwitch(e.target.checked);
   };
@@ -77,6 +83,8 @@ function Form(props) {
     params.append('category', category==="All" ? "B1" : category);
     params.append('home', home);
     params.append('away', away);
+    params.append('day', day);
+    params.append('setsu', setsu);
     
     axios.post('/apibscore', params)
       .then(function (res) {
@@ -98,11 +106,26 @@ function Form(props) {
     });
   }
 
+  const useStyles = makeStyles({
+    condition: {
+      width: `${100 / numOfColumns}vw`,
+    },
+    condSwitch: {
+      display: "flex",
+    },
+    condRow: {
+      display: "flex",
+      justifyContent: "flex-start",
+      padding: "1rem",
+    },
+  })
+  const classes = useStyles();
+  
   return (
     <>
-      <Grid container style={{ justifyContent: "flex-start"}}>
+      <Grid container className={classes.condRow}>
         <Grid item xs={2}>
-          <FormControl variant="standard" style={{ width: `${100 / numOfColumns}vw` }}>
+          <FormControl variant="standard" className={classes.condition}>
             <InputLabel>{gameDataList.season.column}</InputLabel>
             <Select
               label={gameDataList.season.column}
@@ -116,7 +139,7 @@ function Form(props) {
           </FormControl>
         </Grid>
         <Grid item xs={2}>
-          <FormControl variant="standard" style={{ width: `${100 / numOfColumns}vw` }}>
+          <FormControl variant="standard" className={classes.condition}>
             <InputLabel>{gameDataList.category.column}</InputLabel>
             <Select
               label={gameDataList.category.column}
@@ -130,7 +153,7 @@ function Form(props) {
           </FormControl>
         </Grid>
         <Grid item xs={2}>
-          <FormControl variant="standard" style={{ width: `${100 / numOfColumns}vw` }}>
+          <FormControl variant="standard" className={classes.condition}>
             <InputLabel>{gameDataList.home.column}</InputLabel>
             <Select
               label={gameDataList.home.column}
@@ -144,7 +167,7 @@ function Form(props) {
           </FormControl>
         </Grid>
         <Grid item xs={2}>
-          <FormControl variant="standard" style={{ width: `${100 / numOfColumns}vw` }}>
+          <FormControl variant="standard" className={classes.condition}>
             <InputLabel>{gameDataList.away.column}</InputLabel>
             <Select
               label={gameDataList.away.column}
@@ -159,12 +182,12 @@ function Form(props) {
         </Grid>
       </Grid>
 
-      <Grid container style={{ justifyContent: "flex-start" }}>
-        <Grid item xs={2}>
+      <Grid container className={classes.condRow}>
+        <Grid item xs={2} className={classes.condSwitch} >
           <FormGroup aria-label="position" row>
             <FormControlLabel
               value="top"
-              control={<Switch checked={daySwitch} onChange={funSwitchDay} color="primary" value={daySwitch} />}
+              control={<Switch checked={daySwitch} onChange={funSwitchDay} color="primary" value={daySwitch}/>}
               label="Day"
               labelPlacement="start"
               />
@@ -176,18 +199,19 @@ function Form(props) {
               label="Day"
               inputFormat="YYYY/MM/DD"
               value={day}
-              onChange={funSetDaySwitch}
+              // onChange={funSetDaySwitch}
+              onChange={setDay}
               emptyLabel="Select a date"
               disabled={!daySwitch}
-              renderInput={(params) => <TextField {...params} style={{ width: `${100 / numOfColumns}vw` }}/>}
+              renderInput={(params) => <TextField {...params} className={classes.condition}/>}
             />
           </LocalizationProvider>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={2}  className={classes.condSwitch}>
           <FormGroup aria-label="position" row>
             <FormControlLabel
               value="top"
-              control={<Switch checked={setsuSwitch} onChange={funSwitchSetsu} color="primary" value={daySwitch} />}
+              control={<Switch checked={setsuSwitch} onChange={funSwitchSetsu} color="primary" value={daySwitch}/>}
               label="Setsu"
               labelPlacement="start"
               />
@@ -196,9 +220,9 @@ function Form(props) {
         <Grid item xs={2}>
         <TextField
           label="Setsu"
-          style={{ width: `${100 / numOfColumns}vw` }}
+          className={classes.condition}
           value={setsu}
-          onChange={funSwitchSetsu}
+          onChange={funSetSetsu}
           disabled={!setsuSwitch}
         />
         </Grid>
@@ -206,7 +230,8 @@ function Form(props) {
           <Button
             onClick={funPost}
             size="large"
-            color="grey"
+            variant="contained"
+            color="primary"
           >
             検索
           </Button>

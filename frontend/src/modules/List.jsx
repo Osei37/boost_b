@@ -32,7 +32,7 @@ export default function List(props) {
     } else {
         infodata = props.searchResult.info
     }
-    console.log(infodata)
+    // console.log(infodata)
     // console.log(props.searchResult.info.map((row) => (row.schedulekey)));
     // console.log(props.searchResult.info);
 
@@ -48,6 +48,7 @@ export default function List(props) {
                         <TableCell align="left">day</TableCell>
                         <TableCell align="left">week</TableCell>
                         <TableCell align="left">setsu</TableCell>
+                        <TableCell align="left">boxscore</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -60,6 +61,7 @@ export default function List(props) {
                             <TableCell>{row.day}</TableCell>
                             <TableCell>{row.week}</TableCell>
                             <TableCell>{row.setsu}</TableCell>
+                            <TableCell><a href={row.schedulekey}>Boxscore</a></TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
