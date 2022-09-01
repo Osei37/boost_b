@@ -35,15 +35,16 @@ function Form(props) {
   const teamValues = ["All"]
   const homeValues = teamValues.concat([ ...Array(10)].map((x, i) => String(i + 1)));
   const awayValues = teamValues.concat([ ...Array(10)].map((x, i) => String(i + 1)));
-  const weekValues = ["All", "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+  // const weekValues = ["All", "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
   const gameDataList = {
     season: { column: "Season", values: seasonValues },
     category: { column: "Category", values: categoryValues },
     home: { column: "Home", values: homeValues },
     away: { column: "Away", values: awayValues },
-    day: { column: "Day", values: weekValues },
-    week: { column: "Week", values: weekValues }
+    day: { column: "Day", values: day },
+    // week: { column: "Week", values: weekValues }
+    setsu: { column: "Setsu", values: setsu }
   }
   const numOfColumns = Object.keys(gameDataList).length + 2;
 
@@ -62,12 +63,13 @@ function Form(props) {
   // const funSetDay = (e) => {
   //   setDay(() => e.target.value);
   // }
-  // const funSetSetsu = (e) => {
-  //   setSetsu(() => e.target.value);
-  // }
-  const funSetDaySwitch = (e) => {
-    setDaySwitch(() => e.target.value);
+  const funSetSetsu = (e) => {
+    setSetsu(() => e.target.value);
   }
+  // const funSetDay = (e) => {
+  //   setDay(() => e.target.value);
+  // }
+
   const funSwitchDay = (e) => {
     setDaySwitch(e.target.checked);
   };
@@ -81,6 +83,8 @@ function Form(props) {
     params.append('category', category==="All" ? "B1" : category);
     params.append('home', home);
     params.append('away', away);
+    params.append('day', day);
+    params.append('setsu', setsu);
     
     axios.post('/apibscore', params)
       .then(function (res) {
@@ -195,7 +199,8 @@ function Form(props) {
               label="Day"
               inputFormat="YYYY/MM/DD"
               value={day}
-              onChange={funSetDaySwitch}
+              // onChange={funSetDaySwitch}
+              onChange={setDay}
               emptyLabel="Select a date"
               disabled={!daySwitch}
               renderInput={(params) => <TextField {...params} className={classes.condition}/>}
@@ -217,7 +222,7 @@ function Form(props) {
           label="Setsu"
           className={classes.condition}
           value={setsu}
-          onChange={funSwitchSetsu}
+          onChange={funSetSetsu}
           disabled={!setsuSwitch}
         />
         </Grid>
