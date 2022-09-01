@@ -1,8 +1,6 @@
-// import { Link } from 'react-router-dom';
-// import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import { createTheme } from "@material-ui/core/styles";
-import { ThemeProvider, makeStyles } from "@material-ui/styles";
+import { ThemeProvider } from "@material-ui/styles";
 
 import { grey } from "@material-ui/core/colors";
 import Box from '@material-ui/core/Box';
@@ -13,72 +11,9 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-// import List from '@material-ui/core/List';
-// import ListItem from '@material-ui/core/ListItem';
-// import ListItemText from '@material-ui/core/ListItemText';
-
-// import About from './About';
-// import Info from './Info';
-// import Provide from './Provide';
-// import Transfer from './Transfer';
-// import NotFound from './NotFound';
 import Header from './Header';
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-const useStyles = makeStyles((theme => ({
-  root: {
-    flexGrow: 1
-  },
-  appbar: {
-    background: "#ff0055",
-    height: "5rem",
-    display: "flex",
-    justifyContent: "center"
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: {
-      display: "none"
-    }
-  },
-  menuIcon: {
-    width: "3rem",
-    height: "3rem"
-  },
-  headerNav: {
-    display: "none",
-    [theme.breakpoints.up("sm")]: {
-      display: "flex",
-      width: "70%"
-    }
-  },
-  listItem: {
-    margin: "0.5rem 0.25rem",
-    padding: "0.25rem",
-
-    "&:hover": {
-      background: "#f8df00",
-      color: "#292929",
-      border: "1px solid #292929"
-    },
-    "&.active": {
-      background: "#f8df00",
-      color: "#292929",
-      border: "1px solid #292929"
-    }
-  },
-  title: {
-    flexGrow: 1,
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(2)
-    }
-  },
-  link: {
-    textDecoration: "none",
-    color: "white"
-  }
-})));
 
 const theme = createTheme({
   palette: {
@@ -86,7 +21,10 @@ const theme = createTheme({
       main: grey[900]
     },
     secondary: {
-      main: "#00bcd4"
+      main: "#606060"
+    },
+    third: {
+      main: "#A0A0A0"
     }
   }
 });
