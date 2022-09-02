@@ -1,5 +1,7 @@
 import Header from './Header';
 import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+
 import Highcharts from 'highcharts'
 import HighchartSankey from 'highcharts/modules/sankey'
 import HighchartsWheel from 'highcharts/modules/dependency-wheel'
@@ -8,20 +10,25 @@ import HighchartsReact from 'highcharts-react-official'
 HighchartSankey(Highcharts)
 HighchartsWheel(Highcharts)
 
+const useStyles = makeStyles({
+  form: {
+      padding: "2rem",
+  },
+})
+
 function Transfer() {
+  const classes = useStyles();
 
   const options = {
     title: {
       text: 'B.LEAGUE 移籍状況 (08/27)'
     },
-  
     accessibility: {
       point: {
         valueDescriptionFormat: '{index}. From {point.from} to {point.to}: {point.weight}.'
       }
     },
     colors: ['#000000', '#FFF100', '#515254', '#D80100', '#8FC320', '#023793', '#33A6B8', '#D2001F', '#4C444D', '#11315A', '#EB5405', '#0B408C', '#323D99', '#C77EB5', '#026EB7', '#0269FF', '#DBC073', '#18519E', '#EFAB00', '#918D40', '#E6001C', '#000D37', '#E6280E', '#FFF33F', '#E70012', '#EA470C', '#8F0038', '#FFF890', '#E40073', '#FED500', '#5AFF19', '#444444', '#F34567'],
-
     series: [
       {
         keys: ['from', 'to', 'weight', 'name', 'from_detail', 'to_detail'],
@@ -50,7 +57,9 @@ function Transfer() {
   return (
     <>
       <Header page="Transfer" />
-      <HighchartsReact highcharts={Highcharts} options={options} />
+      <div className={classes.form}>
+        <HighchartsReact highcharts={Highcharts} options={options} />
+      </div>
     </>
   )
 }
