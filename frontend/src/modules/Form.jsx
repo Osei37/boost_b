@@ -133,7 +133,7 @@ function Form(props) {
               onChange={funSetSeason}
               >
               {gameDataList.season.values.map((v) => (
-                <MenuItem value={v}>{v}</MenuItem>
+                <MenuItem value={v} key={v}>{v}</MenuItem>
                 ))}
             </Select>
           </FormControl>
@@ -147,7 +147,7 @@ function Form(props) {
               onChange={funSetCategory}
             >
               {gameDataList.category.values.map((v) => (
-                <MenuItem value={v}>{v}</MenuItem>
+                <MenuItem value={v} key={v}>{v}</MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -161,7 +161,7 @@ function Form(props) {
               onChange={funSetHome}
             >
               {gameDataList.home.values.map((v) => (
-                <MenuItem value={v}>{v}</MenuItem>
+                <MenuItem value={v} key={v}>{v}</MenuItem>
               ))}
             </Select>
           </FormControl>
@@ -175,7 +175,7 @@ function Form(props) {
               onChange={funSetAway}
             >
               {gameDataList.away.values.map((v) => (
-                <MenuItem value={v}>{v}</MenuItem>
+                <MenuItem value={v} key={v}>{v}</MenuItem>
               ))}
             </Select>
           </FormControl>
