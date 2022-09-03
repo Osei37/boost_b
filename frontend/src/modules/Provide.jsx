@@ -56,7 +56,7 @@ function Provide() {
           </div>
           <div className={classes.what}>
             <h2>公開先</h2>
-            <p>URL はこちら https://github.com/Osei37/bleague_data <br /> Code から Download ZIP か clone してお使いください。</p>
+            <p>URL はこちら <a color="red" href="https://github.com/Osei37/bleague_data">https://github.com/Osei37/bleague_data</a> <br /> Code から Download ZIP か clone してお使いください。</p>
           </div>
           <div className={classes.what}>
             <h2>詳細</h2>
