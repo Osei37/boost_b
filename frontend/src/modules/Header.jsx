@@ -62,8 +62,8 @@ function Header(props) {
             <Button
               href={link_.url}
               color="inherit"
-              variant="a"
               style={{ p: 1, flexShrink: 0, width: buttonWidth }}
+              key={link_.title}
             >
               {link_.title}
             </Button>
