@@ -25,7 +25,6 @@ function Form(props) {
   const [home, setHome] = useState("All");
   const [away, setAway] = useState("All");
   const [day, setDay] = useState(dayjs("2016-09-22"));
-  // const [week, setWeek] = useState("");
   const [setsu, setSetsu] = useState(1);
   const [daySwitch, setDaySwitch] = useState(false);
   const [setsuSwitch, setSetsuSwitch] = useState(false);
@@ -35,7 +34,6 @@ function Form(props) {
   const teamValues = ["All"]
   const homeValues = teamValues.concat([ ...Array(10)].map((x, i) => String(i + 1)));
   const awayValues = teamValues.concat([ ...Array(10)].map((x, i) => String(i + 1)));
-  // const weekValues = ["All", "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
   const gameDataList = {
     season: { column: "Season", values: seasonValues },
@@ -43,7 +41,6 @@ function Form(props) {
     home: { column: "Home", values: homeValues },
     away: { column: "Away", values: awayValues },
     day: { column: "Day", values: day },
-    // week: { column: "Week", values: weekValues }
     setsu: { column: "Setsu", values: setsu }
   }
   const numOfColumns = Object.keys(gameDataList).length + 2;
@@ -60,15 +57,9 @@ function Form(props) {
   const funSetAway = (e) => {
     setAway(() => e.target.value);
   }
-  // const funSetDay = (e) => {
-  //   setDay(() => e.target.value);
-  // }
   const funSetSetsu = (e) => {
     setSetsu(() => e.target.value);
   }
-  // const funSetDay = (e) => {
-  //   setDay(() => e.target.value);
-  // }
 
   const funSwitchDay = (e) => {
     setDaySwitch(e.target.checked);
@@ -79,26 +70,18 @@ function Form(props) {
 
   const funPost = () => {
     const params = new URLSearchParams();
-    params.append('season', season==="All" ? "2020-21" : season);
-    params.append('category', category==="All" ? "B1" : category);
-    params.append('home', home);
-    params.append('away', away);
-    params.append('day', day);
-    params.append('setsu', setsu);
-    
+    params.append('season', season==="All" ? "0" : season);
+    params.append('category', category==="All" ? "0" : category);
+    params.append('home', home==="All" ? "0" : home);
+    params.append('away', away==="All" ? "0" : away);
+    params.append('day', daySwitch===false ? "0" : day);
+    params.append('setsu', setsuSwitch===false ? "0" : setsu);
+
     axios.post('/apibscore', params)
       .then(function (res) {
         props.setDisplay({
           ...props.display,
           info: res.data.message,
-          // schedulekey: res.data.message.filter(function (sk) { return sk.schedulekey}),
-          // season: res.data.message.season,
-          // category: res.data.message.category,
-          // home: res.data.message.home,
-          // away: res.data.message.away,
-          // day: res.data.message.day,
-          // week: res.data.message.week,
-          // setsu: res.data.message.setsu
         });
     })
     .catch(function (error) {
@@ -131,10 +114,11 @@ function Form(props) {
               label={gameDataList.season.column}
               value={season}
               onChange={funSetSeason}
-              >
-              {gameDataList.season.values.map((v) => (
-                <MenuItem value={v}>{v}</MenuItem>
-                ))}
+              align="right"
+            >
+            {gameDataList.season.values.map((v) => (
+              <MenuItem value={v}>{v}</MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Grid>
