@@ -8,7 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
-export default function List(props) {
+function List(props) {
 
     const useStyles = makeStyles({
         table: {
@@ -17,20 +17,14 @@ export default function List(props) {
     });
     const classes = useStyles();
 
-    var infodata = [];
-    if (props.searchResult.info === undefined) {
-        infodata[0] = {
-            'schedulekey': 0,
-            'season': '2020-21',
-            'category': 'B1',
-            'home': 0,
-            'away': 0,
-            'day': '0.0',
-            'week': 'DAY',
-            setsu: 0
-        }
-    } else {
+    let infodata = [];
+    let haveData = false;
+
+    if (props.searchResult.info) {
+        haveData = true;
         infodata = props.searchResult.info
+    } else {
+        haveData = false;
     }
     // console.log(infodata)
     // console.log(props.searchResult.info.map((row) => (row.schedulekey)));
@@ -51,21 +45,28 @@ export default function List(props) {
                         <TableCell align="left">boxscore</TableCell>
                     </TableRow>
                 </TableHead>
-                <TableBody>
-                    {infodata.map((row) => (
-                        <TableRow key={row.schedulekey}>
-                            <TableCell>{row.season}</TableCell>
-                            <TableCell>{row.category}</TableCell>
-                            <TableCell>{row.home}</TableCell>
-                            <TableCell>{row.away}</TableCell>
-                            <TableCell>{row.day}</TableCell>
-                            <TableCell>{row.week}</TableCell>
-                            <TableCell>{row.setsu}</TableCell>
-                            <TableCell><a href={row.schedulekey}>Boxscore</a></TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
+                {haveData && (
+                    <TableBody>
+                        {infodata.map((row) => (
+                            <TableRow key={row.schedulekey}>
+                                <TableCell>{row.season}</TableCell>
+                                <TableCell>{row.category}</TableCell>
+                                <TableCell>{row.home}</TableCell>
+                                <TableCell>{row.away}</TableCell>
+                                <TableCell>{row.day}</TableCell>
+                                <TableCell>{row.week}</TableCell>
+                                <TableCell>{row.setsu}</TableCell>
+                                <TableCell><a href={row.schedulekey}>Boxscore</a></TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                )}
+                {!haveData && (
+                    <p style={{ textAlign: "center" }}>No Data</p>
+                )}
             </Table>
         </TableContainer>
     );
 }
+
+export default List;
