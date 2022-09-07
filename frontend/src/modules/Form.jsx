@@ -69,12 +69,13 @@ function Form(props) {
   };
 
   const funPost = () => {
+
     const params = new URLSearchParams();
     params.append('season', season==="All" ? "0" : season);
     params.append('category', category==="All" ? "0" : category);
     params.append('home', home==="All" ? "0" : home);
     params.append('away', away==="All" ? "0" : away);
-    params.append('day', daySwitch===false ? "0" : day);
+    params.append('day', daySwitch===false ? "0" : day.format("M.DD"));
     params.append('setsu', setsuSwitch===false ? "0" : setsu);
 
     axios.post('/apibscore', params)
