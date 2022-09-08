@@ -9,7 +9,7 @@ const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'ALV4+king37',
-    database: 'test'
+    database: 'alpha'
 });
 
 app.get('/', (req, res) => {
@@ -28,7 +28,9 @@ app.post("/apibscore", (req, res) => {
   const day = req.body.day;
   const setsu = req.body.setsu;
 
-  query_list.push("SELECT * FROM info");
+  // select schedulekey, home, away, home_team.name, away_team.name from info left join team as home_team on info.home=home_team.id left join team as away_team on info.away=away_team.id limit 10;
+
+  query_list.push("SELECT schedulekey, season, category, home_team.name as home_name, away_team.name as away_name, day, week, setsu FROM info LEFT JOIN team AS home_team ON info.home=home_team.id LEFT JOIN team AS away_team ON info.away=away_team.id ");
   if (season!="0") {
     query_list.push("season = ?");
     sql_list.push(season);
@@ -56,7 +58,7 @@ app.post("/apibscore", (req, res) => {
   if (query_list.length>1) {
     query_list[0] += " WHERE " + query_list.slice(1).join(" AND ");
   }
-  query_list[0] += " LIMIT 10";
+  query_list[0] += " LIMIT 10;";
 
   connection.query(
     query_list[0],
