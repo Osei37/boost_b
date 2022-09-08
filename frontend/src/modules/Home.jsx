@@ -13,7 +13,7 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 
 import Header from './Header';
-
+import Footer from './Footer';
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -100,7 +100,7 @@ function Home() {
         </Container>
       </main>
       {/* Footer */}
-      <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
+      {/* <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
         <Typography variant="h6" align="center" gutterBottom>
           Footer
         </Typography>
@@ -112,7 +112,8 @@ function Home() {
         >
           Something here to give the footer a purpose!
         </Typography>
-      </Box>
+      </Box> */}
+        <Footer />
       {/* End footer */}
 
         </>

@@ -1,5 +1,7 @@
-import Header from './Header';
 import { makeStyles } from '@material-ui/core/styles';
+
+import Header from './Header';
+import Footer from './Footer';
 
 function Provide() {
 
@@ -74,6 +76,7 @@ function Provide() {
          </div>
         </div>
       </div>
+      <Footer/>
     </>
   )
 }

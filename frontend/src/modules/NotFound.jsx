@@ -1,4 +1,5 @@
 import Header from './Header';
+import Footer from './Footer';
 
 function NotFound() {
   return (
@@ -15,6 +16,7 @@ function NotFound() {
           <li><a href="/transfer">Transfer</a></li>
         </ul>
       </div>
+      <Footer/>
     </>
   )
 }
