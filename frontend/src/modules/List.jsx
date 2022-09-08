@@ -51,8 +51,8 @@ function List(props) {
                             <TableRow key={row.schedulekey}>
                                 <TableCell>{row.season}</TableCell>
                                 <TableCell>{row.category}</TableCell>
-                                <TableCell>{row.home}</TableCell>
-                                <TableCell>{row.away}</TableCell>
+                                <TableCell>{row.home_name}</TableCell>
+                                <TableCell>{row.away_name}</TableCell>
                                 <TableCell>{row.day}</TableCell>
                                 <TableCell>{row.week}</TableCell>
                                 <TableCell>{row.setsu}</TableCell>
