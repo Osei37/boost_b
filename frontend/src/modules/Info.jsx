@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { useRef } from 'react'
+
 import { makeStyles } from '@material-ui/core/styles';
 import Pagenation from '@mui/material/Pagination';
 
@@ -19,6 +21,8 @@ const useStyles = makeStyles({
 })
 
 function Info() {
+    const childRef = useRef();
+
     const classes = useStyles();
 
     const [page, setPage] = useState(1);
@@ -26,6 +30,7 @@ function Info() {
     
     const funSetPage = (event, value) => {
         setPage(value);
+        childRef.current.parentPost();
     }
 
     return (
@@ -34,7 +39,7 @@ function Info() {
             <Header page="Info"/>
             <div className={classes.form}>
                 {/* フォーム */}
-                <Form display={display} setDisplay={setDisplay} page={page} />
+                <Form display={display} setDisplay={setDisplay} page={page} ref={childRef}/>
             </div>
             <div className={classes.list}>
                 {/* テーブル(検索結果の表示) */}

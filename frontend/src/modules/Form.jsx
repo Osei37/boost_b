@@ -1,4 +1,5 @@
 import { React, useState } from 'react'
+import { forwardRef, useImperativeHandle } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 
 import TextField from "@material-ui/core/TextField";
@@ -18,7 +19,7 @@ import dayjs from 'dayjs';
 
 import axios from 'axios'
 
-function Form(props) {
+const Form = (props, ref) => {
 
   const [season, setSeason] = useState("All");
   const [category, setCategory] = useState("All");
@@ -31,7 +32,6 @@ function Form(props) {
 
   const seasonValues = ["All", "2019-20", "2020-21", "2021-22"];
   const categoryValues = ["All", "B1", "B2", "B3"];
-  // const teamValues = ["All"]
 
   const teamDataList = {
     "All": 0,
@@ -126,6 +126,12 @@ function Form(props) {
   const funSwitchSetsu = (e) => {
     setSetsuSwitch(e.target.checked);
   };
+
+  useImperativeHandle(ref, () => ({
+    parentPost: () => {
+      funPost();
+    }
+  }));
 
   const funPost = () => {
 
@@ -287,4 +293,4 @@ function Form(props) {
   )
 }
 
-export default Form;
+export default forwardRef(Form);
