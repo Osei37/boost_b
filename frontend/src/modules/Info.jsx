@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Pagenation from '@mui/material/Pagination';
 
 import Header from './Header';
+import Footer from './Footer';
 import Form from './Form';
 import List from './List';
 
@@ -56,7 +57,6 @@ function Info() {
             </div>
         </>
     )
-    
 }
 
 export default Info;

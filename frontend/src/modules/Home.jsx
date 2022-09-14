@@ -1,17 +1,19 @@
-import Typography from '@material-ui/core/Typography';
-import { createTheme } from "@material-ui/core/styles";
-import { ThemeProvider } from "@material-ui/styles";
+import createTheme from '@mui/material/styles/createTheme';
+import ThemeProvider from '@mui/material/styles/ThemeProvider';
+import grey from '@mui/material/colors/grey';
 
-import { grey } from "@material-ui/core/colors";
-import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
+
 import Header from './Header';
+import Footer from './Footer';
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -98,7 +100,7 @@ function Home() {
         </Container>
       </main>
       {/* Footer */}
-      <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
+      {/* <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
         <Typography variant="h6" align="center" gutterBottom>
           Footer
         </Typography>
@@ -110,7 +112,8 @@ function Home() {
         >
           Something here to give the footer a purpose!
         </Typography>
-      </Box>
+      </Box> */}
+        <Footer />
       {/* End footer */}
 
         </>

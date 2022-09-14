@@ -1,4 +1,3 @@
-import Header from './Header';
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -6,6 +5,9 @@ import Highcharts from 'highcharts'
 import HighchartSankey from 'highcharts/modules/sankey'
 import HighchartsWheel from 'highcharts/modules/dependency-wheel'
 import HighchartsReact from 'highcharts-react-official'
+
+import Header from './Header';
+import Footer from './Footer';
 
 HighchartSankey(Highcharts)
 HighchartsWheel(Highcharts)
@@ -60,6 +62,7 @@ function Transfer() {
       <div className={classes.form}>
         <HighchartsReact highcharts={Highcharts} options={options} />
       </div>
+      <Footer/>
     </>
   )
 }

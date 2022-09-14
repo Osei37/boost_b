@@ -1,13 +1,13 @@
 import * as React from 'react';
 
-import createTheme from "@material-ui/core/styles/createTheme";
-import ThemeProvider from "@material-ui/styles/ThemeProvider";
-import grey from "@material-ui/core/colors/grey";
+import createTheme from '@mui/material/styles/createTheme';
+import ThemeProvider from '@mui/material/styles/ThemeProvider';
+import grey from '@mui/material/colors/grey';
 
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
-import AppBar from '@material-ui/core/AppBar';
-import Typography from '@material-ui/core/Typography';
+import Toolbar from '@mui/material/Toolbar';
+import Button from '@mui/material/Button';
+import AppBar from '@mui/material/AppBar';
+import Typography from '@mui/material/Typography';
 
 function Header(props) {
   const theme = createTheme({
@@ -62,9 +62,8 @@ function Header(props) {
             <Button
               href={link_.url}
               color="inherit"
-              noWrap
-              variant="a"
               style={{ p: 1, flexShrink: 0, width: buttonWidth }}
+              key={link_.title}
             >
               {link_.title}
             </Button>
