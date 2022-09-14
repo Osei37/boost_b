@@ -19,19 +19,22 @@ app.get('/', (req, res) => {
 
 app.post("/apibscore", (req, res) => {
   // 0 は全てのデータを取得する
-  let sql_list = []
-  let query_list = []
+  let sql_list = [];
+  let query_list = [];
+  const perPage = 10;
   const season = req.body.season;
   const category = req.body.category;
   const home = req.body.home;
   const away = req.body.away;
   const day = req.body.day;
   const setsu = req.body.setsu;
+  const currentPage = req.body.page;
 
   // select schedulekey, home, away, home_team.name, away_team.name from info left join team as home_team on info.home=home_team.id left join team as away_team on info.away=away_team.id limit 10;
+  const exactColumns = "schedulekey, season, category, home_team.name as home_name, away_team.name as away_name, day, week, setsu"
+  query_list.push("SELECT " + exactColumns + " FROM info LEFT JOIN team AS home_team ON info.home=home_team.id LEFT JOIN team AS away_team ON info.away=away_team.id ");
 
-  query_list.push("SELECT schedulekey, season, category, home_team.name as home_name, away_team.name as away_name, day, week, setsu FROM info LEFT JOIN team AS home_team ON info.home=home_team.id LEFT JOIN team AS away_team ON info.away=away_team.id ");
-  if (season!="0") {
+  if (season != "0") {
     query_list.push("season = ?");
     sql_list.push(season);
   }
@@ -58,8 +61,24 @@ app.post("/apibscore", (req, res) => {
   if (query_list.length>1) {
     query_list[0] += " WHERE " + query_list.slice(1).join(" AND ");
   }
-  query_list[0] += " LIMIT 10;";
 
+  let sendData = {};
+  // 件数を調べる
+  connection.query(
+    query_list[0].replace(exactColumns, "COUNT(*) as count"),
+    sql_list,
+    function(err, results, fields) {
+      if(err) {
+        console.log("接続終了(異常)");
+        throw err;
+      }
+      sendData.cnt = Math.ceil(results[0].count / perPage);
+    }
+  );
+
+  // perPage件を取得する
+  query_list[0] += " LIMIT " + String((currentPage-1)*10) + ", " + String(perPage) + ";";
+  console.log(query_list[0]);
   connection.query(
     query_list[0],
     sql_list,
@@ -68,7 +87,8 @@ app.post("/apibscore", (req, res) => {
         console.log("接続終了(異常)");
         throw err;
       }
-      res.json({message: results});
+      sendData.message = results;
+      res.json(sendData);
     }
   );
 });

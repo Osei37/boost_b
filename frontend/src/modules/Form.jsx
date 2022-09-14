@@ -100,7 +100,7 @@ function Form(props) {
     home: { column: "Home", values: homeValues },
     away: { column: "Away", values: awayValues },
     day: { column: "Day", values: day },
-    setsu: { column: "Setsu", values: setsu }
+    setsu: { column: "Setsu", values: setsu },
   }
   const numOfColumns = Object.keys(gameDataList).length + 2;
 
@@ -135,13 +135,15 @@ function Form(props) {
     params.append('home', teamDataList[home]==="All" ? "0" : teamDataList[home]);
     params.append('away', teamDataList[away]==="All" ? "0" : teamDataList[away]);
     params.append('day', daySwitch===false ? "0" : day.format("M.DD"));
-    params.append('setsu', setsuSwitch===false ? "0" : setsu);
+    params.append('setsu', setsuSwitch === false ? "0" : setsu);
+    params.append('page', props.page);
 
     axios.post('/apibscore', params)
       .then(function (res) {
         props.setDisplay({
           ...props.display,
           info: res.data.message,
+          cnt: res.data.cnt,
         });
     })
     .catch(function (error) {
