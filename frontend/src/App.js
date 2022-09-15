@@ -30,7 +30,7 @@ import { useState,useEffect } from 'react'
 function App() {
   const [message, setMessage] = useState('');
   useEffect(() =>{
-    fetch('/api')
+    fetch('/apibscore')
       .then((res) => res.json())
       .then((data) => setMessage(data.message));
   },[])
