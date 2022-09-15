@@ -27,10 +27,10 @@ function Info() {
     const classes = useStyles();
 
     const [page, setPage] = useState(1);
-    const [display, setDisplay] = useState({})
+    const [display, setDisplay] = useState({});
     
-    const funSetPage = (event, value) => {
-        setPage(value);
+    async function funSetPage(event, value) {
+        await setPage(value);
         childRef.current.parentPost();
     }
 
