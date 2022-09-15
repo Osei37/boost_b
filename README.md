@@ -1,3 +1,6 @@
+https://user-images.githubusercontent.com/61911360/190494743-bc889935-a1e7-4322-9c44-1ee5ed5aeb89.mp4
+（容量制限の関係でかなり急いで撮りました．見づらいかもしれません．）
+
 ## Boost B とは？
 　Boost B は男子プロバスケットボールリーグ B.LEAGUE をさらに楽しくすることを目指している非公式サービスです。
 
