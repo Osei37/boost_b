@@ -17,6 +17,14 @@ import Footer from './Footer';
 
 const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
+const cards_tmp = {
+  1: { title: 'Boost B とは？', text: 'Boost B とは...', img: 'articles/red_black_colored_basketball_court.png' },
+  2: { title: '勝率【10月編】', text: 'Bリーグ10月の各チームの勝率をまとめます．', img: 'articles/red_arc.png' },
+  3: { title: '新卒ルーキー紹介', text: '22-23シーズンに新卒として契約した選手を紹介します．', img: 'articles/red_ark_ukiyoe.png' },
+  4: { title: '日本代表まとめ【11/11 vsバーレーン】', text: '11/11 に行われたW杯予選のバーレーン戦に日本代表として選出された選手をまとめます．', img: 'articles/red_arc_oil_painting.png' },
+  5: { title: '各チームのマスコット', text: 'Bリーグの各チームのマスコットを紹介します．', img: 'articles/red_bear_plays_basketball.png' },  
+}
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -65,37 +73,34 @@ function Home() {
         </Box>
         <Container sx={{ py: 8 }} maxWidth="md">
           {/* End hero unit */}
-          <Grid container spacing={4}>
-            {cards.map((card) => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
-                <Card
-                  sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-                >
+            <Grid container spacing={4}>
+              {Object.keys(cards_tmp).map((card) => (
+                <Grid item key={card} xs={12} sm={6} md={4}>
+                  <Card
+                    sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+                  >
                   <CardMedia
                     component="img"
                     sx={{
                       // 16:9
-                      pt: '56.25%',
+                      pt: '10%',
                     }}
-                    image="https://source.unsplash.com/random"
-                    alt="random"
-                  />
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Heading
-                    </Typography>
-                    <Typography>
-                      This is a media card. You can use this section to describe the
-                      content.
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small">View</Button>
-                    <Button size="small">Edit</Button>
-                  </CardActions>
-                </Card>
-              </Grid>
-            ))}
+                      image={`${process.env.PUBLIC_URL}${cards_tmp[card].img}`}
+                    />
+                    <CardContent sx={{ flexGrow: 1 }}>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {cards_tmp[card].title}
+                      </Typography>
+                      <Typography>
+                        {cards_tmp[card].text}
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button size="small">View</Button>
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))}
           </Grid>
         </Container>
       </main>
