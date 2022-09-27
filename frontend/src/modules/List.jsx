@@ -56,7 +56,7 @@ function List(props) {
                                 <TableCell>{row.day}</TableCell>
                                 <TableCell>{row.week}</TableCell>
                                 <TableCell>{row.setsu}</TableCell>
-                                <TableCell><a href={`info/${row.schedulekey}`}>Boxscore</a></TableCell>
+                                <TableCell><a href={`boxscore?gameid=${row.schedulekey}`}>Boxscore</a></TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
