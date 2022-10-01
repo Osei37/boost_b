@@ -1,5 +1,6 @@
 import React , { useState } from 'react';
 import Header from './Header';
+import Footer from './Footer';
 import Stats from './Stats';
 
 import axios from 'axios';
@@ -22,10 +23,8 @@ function BoxScore(props) {
 
     axios.post('/getbscore', params)
       .then(function (res) {
-        const tmpstats = res.data
-        console.log(tmpstats)
-        setHomeStats(tmpstats);
-        console.log(tmpstats)
+        setHomeStats(res.data.home);
+        setAwayStats(res.data.away);
       })
       .catch (function (error) {
         console.log("error", error);
@@ -38,6 +37,8 @@ function BoxScore(props) {
       <h1>BoxScore</h1>
       {/* <button onClick={funPost}>post</button> */}
       <Stats gameData={homeStats} />
+      <Stats gameData={awayStats} />
+      <Footer />
     </>
   )
 }
