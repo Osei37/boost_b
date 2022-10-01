@@ -93,22 +93,36 @@ app.post("/apibscore", (req, res) => {
   );
 });
 
-app.post("/getbscore", (req, res) => {
+app.post("/getbscore", async (req, res) => {
+  
   const schedulekey = req.body.gameid;
-  console.log(req.body);
-  const teamid = req.body.home;
-
-  const query = "SELECT * FROM boxscore WHERE schedulekey=? AND teamid=?;";
+  const homeId = req.body.home;
+  const awayId = req.body.away;
+  let sendData = {};
+  
+  const query = "SELECT * FROM boxscore WHERE schedulekey=? AND teamid=? ORDER BY number;";
   connection.query(
     query,
-    [schedulekey, teamid],
+    [schedulekey, homeId],
     function (err, results, fields) {
       if (err) {
         console.log("接続終了(異常)");
         throw err;
       }
-      console.log(results);
-      res.json(results);
+      sendData.home = results;
+    }
+  );
+
+  connection.query(
+    query,
+    [schedulekey, awayId],
+    function (err, results, fields) {
+      if (err) {
+        console.log("接続終了(異常)");
+        throw err;
+      }
+      sendData.away = results;
+      res.json(sendData);
     }
   );
 });
