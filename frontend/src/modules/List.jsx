@@ -23,6 +23,7 @@ function List(props) {
     if (props.searchResult.info) {
         haveData = true;
         infodata = props.searchResult.info
+        console.log(infodata);
     } else {
         haveData = false;
     }
@@ -56,7 +57,7 @@ function List(props) {
                                 <TableCell>{row.day}</TableCell>
                                 <TableCell>{row.week}</TableCell>
                                 <TableCell>{row.setsu}</TableCell>
-                                <TableCell><a href={row.schedulekey}>Boxscore</a></TableCell>
+                                <TableCell><a href={`boxscore?gameid=${row.schedulekey}&home=${row.home}&away=${row.away}`}>Boxscore</a></TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

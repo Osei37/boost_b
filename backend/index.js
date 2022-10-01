@@ -31,7 +31,7 @@ app.post("/apibscore", (req, res) => {
   const currentPage = req.body.page;
 
   // select schedulekey, home, away, home_team.name, away_team.name from info left join team as home_team on info.home=home_team.id left join team as away_team on info.away=away_team.id limit 10;
-  const exactColumns = "schedulekey, season, category, home_team.name as home_name, away_team.name as away_name, day, week, setsu"
+  const exactColumns = "schedulekey, season, category, home_team.name as home_name, away_team.name as away_name, day, week, setsu, home, away"
   query_list.push("SELECT " + exactColumns + " FROM info LEFT JOIN team AS home_team ON info.home=home_team.id LEFT JOIN team AS away_team ON info.away=away_team.id ");
 
   if (season != "0") {
@@ -88,6 +88,40 @@ app.post("/apibscore", (req, res) => {
         throw err;
       }
       sendData.message = results;
+      res.json(sendData);
+    }
+  );
+});
+
+app.post("/getbscore", async (req, res) => {
+  
+  const schedulekey = req.body.gameid;
+  const homeId = req.body.home;
+  const awayId = req.body.away;
+  let sendData = {};
+  
+  const query = "SELECT * FROM boxscore WHERE schedulekey=? AND teamid=? ORDER BY number;";
+  connection.query(
+    query,
+    [schedulekey, homeId],
+    function (err, results, fields) {
+      if (err) {
+        console.log("接続終了(異常)");
+        throw err;
+      }
+      sendData.home = results;
+    }
+  );
+
+  connection.query(
+    query,
+    [schedulekey, awayId],
+    function (err, results, fields) {
+      if (err) {
+        console.log("接続終了(異常)");
+        throw err;
+      }
+      sendData.away = results;
       res.json(sendData);
     }
   );
