@@ -35,7 +35,6 @@ function BoxScore(props) {
     <>
       <Header page="BoxScore"/>
       <h1>BoxScore</h1>
-      {/* <button onClick={funPost}>post</button> */}
       <Stats gameData={homeStats} />
       <Stats gameData={awayStats} />
       <Footer />
