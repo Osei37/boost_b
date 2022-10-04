@@ -21,10 +21,20 @@ function Stats(props) {
   const classes = useStyles();
   
   const criteriaList = ['#', 'S', 'PLAYER', 'PO', 'MIN', 'PTS', 'FGM', 'FGA', 'FG%', '3FGM', '3FGA', '3FG%', 'FTM', 'FTA', 'FT%', 'OR', 'DR', 'TR', 'AS', 'TO', 'ST', 'BS', 'BSR', 'F', 'FD', 'EFF']
-  const styleList = [1, 1, 10, 3, 2, 2, 2, 2, 3, 3, 3, 3, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+  const styleList = [1, 1, 10, 3, 3, 2, 2, 2, 3, 3, 3, 3, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
   let haveData = false;
   if (props.gameData) {
     haveData = true;
+    // props.gameData の keys に null があるので、それを - にする
+    for (let i = 0; i < props.gameData.length; i++) {
+      for (let key in props.gameData[i]) {
+        if (props.gameData[i][key] === null) {
+          props.gameData[i][key] = "-";
+        }
+      }
+    }
+    // TEAM/COACHES の No を削除
+    props.gameData[props.gameData.length - 1].number = "";
   } else {
     haveData = false;
   }
