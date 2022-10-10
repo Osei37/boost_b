@@ -2,6 +2,7 @@ import React , { useState } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Stats from './Stats';
+import GameInfo from './GameInfo';
 
 import axios from 'axios';
 
@@ -48,8 +49,6 @@ function BoxScore() {
 
   }, [gameID, home, away]);
 
-  console.log(infoData);
-
   let haveData = false;
   if (infoData) {
     haveData = true;
@@ -57,8 +56,12 @@ function BoxScore() {
 
   return (
     <>
-      <Header page="BoxScore"/>
-      <h1>BoxScore</h1>
+      <Header page="BoxScore" />
+
+      <div>
+        <h1>Information</h1>
+        <GameInfo infoData={infoData} />
+      </div>
       <div>
         {haveData && (
             <h2>{infoData.home_team_name}</h2>
@@ -71,6 +74,7 @@ function BoxScore() {
         )}
         <Stats gameData={awayStats} totalData={awayTotalStats} />
       </div>
+
       <Footer />
     </>
   )
