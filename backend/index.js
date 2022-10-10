@@ -100,9 +100,10 @@ app.post("/getbscore", async (req, res) => {
   const awayId = req.body.away;
   let sendData = {};
   
-  const query = "SELECT * FROM boxscore WHERE schedulekey=? AND teamid=? ORDER BY number;";
+  // トータル以外のスタッツの取得
+  const query_all = "SELECT * FROM boxscore WHERE schedulekey=? AND teamid=? ORDER BY number;";
   connection.query(
-    query,
+    query_all,
     [schedulekey, homeId],
     function (err, results, fields) {
       if (err) {
@@ -112,9 +113,8 @@ app.post("/getbscore", async (req, res) => {
       sendData.home = results;
     }
   );
-
   connection.query(
-    query,
+    query_all,
     [schedulekey, awayId],
     function (err, results, fields) {
       if (err) {
@@ -122,9 +122,36 @@ app.post("/getbscore", async (req, res) => {
         throw err;
       }
       sendData.away = results;
+      // res.json(sendData);
+    }
+  );
+  // トータルのスタッツの取得
+  const query_total = "SELECT SUM(points), SUM(fieldgoalmake), SUM(fieldgoalattempt), SUM(threefieldgoalmake), SUM(threefieldgoalattempt), SUM(freethrowmake), SUM(freethrowattempt), SUM(offencerebound), SUM(defencerebound), SUM(totalrebound), SUM(assist), SUM(turnover), SUM(steal), SUM(blockshot), SUM(blockshotreceived), SUM(foul), SUM(drawfoul), SUM(efficiency) FROM boxscore WHERE schedulekey=? AND teamid=?;";
+  connection.query(
+    query_total,
+    [schedulekey, homeId],
+    function (err, results, fields) {
+      if (err) {
+        console.log("接続終了(異常)");
+        throw err;
+      }
+      sendData.hometotal = results;
+      // res.json(sendData);
+    }
+  );
+  connection.query(
+    query_total,
+    [schedulekey, awayId],
+    function (err, results, fields) {
+      if (err) {
+        console.log("接続終了(異常)");
+        throw err;
+      }
+      sendData.awaytotal = results;
       res.json(sendData);
     }
   );
+
 });
 
 app.listen(port, () => {
