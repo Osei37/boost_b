@@ -16,6 +16,23 @@ app.get('/', (req, res) => {
     res.send('Hello World!')
 })
 
+app.post("/getinfo", (req, res) => {
+
+  const schedulekey = req.body.gameid;
+  const exactColumns = "season, category, home, away, day, week, tipoff, setsu,  stadium, attendance, home_team.name AS home_team_name, away_team.name AS away_team_name";
+  connection.query(
+    "SELECT " + exactColumns + " FROM info LEFT JOIN team AS home_team ON info.home=home_team.id LEFT JOIN team AS away_team ON info.away=away_team.id WHERE schedulekey=?;",
+    [schedulekey],
+    function(err, results, fields) {
+      if(err) {
+        console.log("接続終了(異常)");
+        throw err;
+      }
+      console.log(results);
+      res.json(results);
+    });
+  }
+);
 
 app.post("/apibscore", (req, res) => {
   // 0 は全てのデータを取得する
