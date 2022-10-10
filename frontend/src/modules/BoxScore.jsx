@@ -2,6 +2,7 @@ import React , { useState } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import Stats from './Stats';
+import GameInfo from './GameInfo';
 
 import axios from 'axios';
 
@@ -14,18 +15,18 @@ function BoxScore() {
   const [homeTotalStats, setHomeTotalStats] = useState(null);
   const [awayStats, setAwayStats] = useState(null);
   const [awayTotalStats, setAwayTotalStats] = useState(null);
+  const [infoData, setInfoData] = useState(null);
 
   // ロード時に実行
   React.useEffect(() => {
 
-    const params = new URLSearchParams();
-    params.append('gameid', gameID);
-    params.append('home', home);
-    params.append('away', away);
+    const paramsStats = new URLSearchParams();
+    paramsStats.append('gameid', gameID);
+    paramsStats.append('home', home);
+    paramsStats.append('away', away);
 
-    axios.post('/getbscore', params)
+    axios.post('/getbscore', paramsStats)
       .then(function (res) {
-        console.log(res.data);
         setHomeStats(res.data.home);
         setHomeTotalStats(res.data.hometotal[0]);
         setAwayStats(res.data.away);
@@ -34,19 +35,46 @@ function BoxScore() {
       .catch (function (error) {
         console.log("error", error);
       });
+    
+    const paramsInfo = new URLSearchParams();
+    paramsInfo.append('gameid', gameID);
+
+    axios.post('/getinfo', paramsInfo)
+      .then(function (res) {
+        setInfoData(res.data[0]);
+      })
+      .catch(function (error) {
+        console.log("error", error);
+      });
+
   }, [gameID, home, away]);
+
+  let haveData = false;
+  if (infoData) {
+    haveData = true;
+  }
 
   return (
     <>
-      <Header page="BoxScore"/>
-      <h1>BoxScore</h1>
+      <Header page="BoxScore" />
+
       <div>
+        <h1>Information</h1>
+        <GameInfo infoData={infoData} />
+      </div>
+      <div>
+        {haveData && (
+            <h2>{infoData.home_team_name}</h2>
+          )}
         <Stats gameData={homeStats} totalData={homeTotalStats} />
       </div>
-      {/* <h1></h1> */}
       <div>
+        {haveData && (
+          <h2>{infoData.away_team_name}</h2>
+        )}
         <Stats gameData={awayStats} totalData={awayTotalStats} />
       </div>
+
       <Footer />
     </>
   )
