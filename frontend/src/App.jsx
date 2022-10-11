@@ -10,6 +10,7 @@ import Info from './modules/Info';
 import Provide from './modules/Provide';
 import Transfer from './modules/Transfer';
 import NotFound from './modules/NotFound';
+import BoxScore from './modules/BoxScore';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
           <Route path="/info" element={<Info />} />
           <Route path="/provide" element={<Provide />} />
           <Route path="/transfer" element={<Transfer />} />
+          <Route path="/boxscore" element={<BoxScore />} />
           <Route path="/*" element={<NotFound />} />
         </Routes>
     </BrowserRouter>

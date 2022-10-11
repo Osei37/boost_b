@@ -16,6 +16,23 @@ app.get('/', (req, res) => {
     res.send('Hello World!')
 })
 
+app.post("/getinfo", (req, res) => {
+
+  const schedulekey = req.body.gameid;
+  const exactColumns = "season, category, home, away, day, week, tipoff, setsu,  stadium, attendance, home_team.name AS home_team_name, away_team.name AS away_team_name";
+  connection.query(
+    "SELECT " + exactColumns + " FROM info LEFT JOIN team AS home_team ON info.home=home_team.id LEFT JOIN team AS away_team ON info.away=away_team.id WHERE schedulekey=?;",
+    [schedulekey],
+    function(err, results, fields) {
+      if(err) {
+        console.log("接続終了(異常)");
+        throw err;
+      }
+      console.log(results);
+      res.json(results);
+    });
+  }
+);
 
 app.post("/apibscore", (req, res) => {
   // 0 は全てのデータを取得する
@@ -31,7 +48,7 @@ app.post("/apibscore", (req, res) => {
   const currentPage = req.body.page;
 
   // select schedulekey, home, away, home_team.name, away_team.name from info left join team as home_team on info.home=home_team.id left join team as away_team on info.away=away_team.id limit 10;
-  const exactColumns = "schedulekey, season, category, home_team.name as home_name, away_team.name as away_name, day, week, setsu"
+  const exactColumns = "schedulekey, season, category, home_team.name as home_name, away_team.name as away_name, day, week, setsu, home, away"
   query_list.push("SELECT " + exactColumns + " FROM info LEFT JOIN team AS home_team ON info.home=home_team.id LEFT JOIN team AS away_team ON info.away=away_team.id ");
 
   if (season != "0") {
@@ -91,6 +108,67 @@ app.post("/apibscore", (req, res) => {
       res.json(sendData);
     }
   );
+});
+
+app.post("/getbscore", async (req, res) => {
+  
+  const schedulekey = req.body.gameid;
+  const homeId = req.body.home;
+  const awayId = req.body.away;
+  let sendData = {};
+  
+  // トータル以外のスタッツの取得
+  const query_all = "SELECT * FROM boxscore WHERE schedulekey=? AND teamid=? ORDER BY number;";
+  connection.query(
+    query_all,
+    [schedulekey, homeId],
+    function (err, results, fields) {
+      if (err) {
+        console.log("接続終了(異常)");
+        throw err;
+      }
+      sendData.home = results;
+    }
+  );
+  connection.query(
+    query_all,
+    [schedulekey, awayId],
+    function (err, results, fields) {
+      if (err) {
+        console.log("接続終了(異常)");
+        throw err;
+      }
+      sendData.away = results;
+      // res.json(sendData);
+    }
+  );
+  // トータルのスタッツの取得
+  const query_total = "SELECT SUM(points), SUM(fieldgoalmake), SUM(fieldgoalattempt), SUM(threefieldgoalmake), SUM(threefieldgoalattempt), SUM(freethrowmake), SUM(freethrowattempt), SUM(offencerebound), SUM(defencerebound), SUM(totalrebound), SUM(assist), SUM(turnover), SUM(steal), SUM(blockshot), SUM(blockshotreceived), SUM(foul), SUM(drawfoul), SUM(efficiency) FROM boxscore WHERE schedulekey=? AND teamid=?;";
+  connection.query(
+    query_total,
+    [schedulekey, homeId],
+    function (err, results, fields) {
+      if (err) {
+        console.log("接続終了(異常)");
+        throw err;
+      }
+      sendData.hometotal = results;
+      // res.json(sendData);
+    }
+  );
+  connection.query(
+    query_total,
+    [schedulekey, awayId],
+    function (err, results, fields) {
+      if (err) {
+        console.log("接続終了(異常)");
+        throw err;
+      }
+      sendData.awaytotal = results;
+      res.json(sendData);
+    }
+  );
+
 });
 
 app.listen(port, () => {
